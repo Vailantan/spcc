@@ -1,0 +1,59 @@
+#include<stdio.h>
+#include<string.h>
+
+	void lexicalAnalyser(char ptr[])
+	{
+		if (!strcmp(ptr, "float") || !strcmp(ptr, "int") || !strcmp(ptr, "char"))
+		{
+			printf("%s is keyword\n", ptr);
+		}
+		else if (!strcmp(ptr, "+") || !strcmp(ptr, "-") || !strcmp(ptr, "="))
+		{
+			printf("%c is operator\n", ptr[0]);
+		}
+		else if ((int) ptr[0] == 59)
+		{
+			printf("%c is special symbol\n", ptr[0]);
+		}
+		else if ((int) ptr[0] == 39 || (int) ptr[0] == 34)
+		{
+			printf("%s is literal\n", ptr);
+		}
+		else 
+		{
+			printf("%s is identifier\n", ptr);
+		}
+	}
+ int main()
+ {
+    FILE *file =fopen("prac2.txt","r");
+    char str[50][100];
+    char line[256];
+    char tokens[50][100];
+    int i=0;
+    while(fgets(line,sizeof(line),file))
+    {
+        strcpy(str[i],line);
+        i++;
+    }
+
+    fclose(file);
+    int l=0,m=0;
+    char temp;
+        for (int k = 0;k<strlen(str[1])-1;k++)
+        {
+            int n =(int)str[1][k];
+            if(n!=32)
+            {
+                 temp = str[1][k];
+                 tokens[l][m] =temp;
+                 m++;
+            }
+            else{
+            l++;
+            m=0;
+            }        
+    }
+        printf("%s",tokens[3]);
+  
+ }
