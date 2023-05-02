@@ -1,0 +1,99 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+int i = 0;
+char c[50];
+
+void T();
+void Edash();
+
+void E()
+{
+	T();
+	Edash();
+
+}
+
+void F()
+{
+    int temp = 0;
+	if (c[i] == '(')
+	{
+		i++;
+        temp = 1;
+		E();
+		if (c[i] == ')')
+		{
+			i++;
+		}
+		else
+		{
+			printf("ed");
+			printf("Syntax error");
+			exit(0);
+		}
+	}
+	else if (c[i] == 'i')
+	{
+		i++;
+	}
+	else if (c[i] == ')'&& temp == 0 )
+	{
+		printf("s");
+		printf("Syntax error");
+		exit(0);
+	}
+	else
+	{
+	  	printf("Syntax error");
+		exit(0);  
+	}
+}
+
+void Tdash()
+{
+	if (c[i] == '*')
+	{
+		i++;
+		F();
+		Tdash();
+	}
+}
+
+void T()
+{
+	F();
+	Tdash();
+
+}
+
+void Edash()
+{
+	if (c[i] == '+')
+	{
+		i++;
+		T();
+		Edash();
+	}
+}
+
+int main()
+{
+	printf("Enter the expression: ");
+	scanf("%s", c);
+	printf("%s\n", c);
+
+	int len = strlen(c);
+	E();
+	if (i == len)
+	{
+		printf("String accepted ");
+	}
+	else
+	{
+		printf("String rejected ");
+	}
+
+	return 0;
+}
