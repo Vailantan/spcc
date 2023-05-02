@@ -1,0 +1,38 @@
+#include<stdio.h>
+#include<string.h>
+int main ()
+{
+    FILE *f1,*f2,*f3,*f4;
+    char label[20],opcode[20],operand[20];
+    int mntc =1,mdtp = 1;
+    f1 = fopen("input.txt","r");
+    f2 = fopen("MDT.txt","w");
+    f3 = fopen("MNT.txt","w");
+    f4 = fopen("CpyFile.txt","w");
+    fscanf(f1,"%s %s %s",label,opcode,operand);
+    while(strcmp(opcode,"END"))
+{
+   if(!strcmp(opcode,"MACRO"))
+  {
+    while (strcmp(opcode,"MEND"))
+    {
+         fscanf(f1,"%s %s %s",label,opcode,operand);
+         if(!strcmp(operand,"**") && strcmp(opcode,"MEND"))
+         {
+         
+            fprintf(f3,"%d %s %d\n",mntc,opcode,mdtp);
+               mntc++;
+         }
+          fprintf(f2,"%d %s %s %s\n",mdtp,label,opcode,operand);
+          mdtp++;
+    }
+    
+}
+fscanf(f1,"%s %s %s",label,opcode,operand);
+if (strcmp(opcode,"MACRO"))
+{
+    fprintf(f4,"%s %s %s\n",label,opcode,operand);
+}
+
+    }
+}
