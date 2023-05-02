@@ -1,0 +1,48 @@
+#include <stdio.h>
+#include<string.h>
+
+void intermediateCode(char exp[])
+{
+    int tempCount = 1;
+    for (int i = 0;i<strlen(exp)-1;i++)
+    {
+     
+        
+        if((exp[i]=='+'||exp[i]=='-'||exp[i]=='*'||exp[i]=='/') && (tempCount==1))
+        {
+            printf("TEMP %d : %c %c %c",tempCount,exp[i-1],exp[i],exp[i+1]);
+            tempCount++;
+            printf("\n");
+        }
+        else if (exp[i]=='+'||exp[i]=='-'||exp[i]=='*'||exp[i]=='/')
+        {
+           printf("TEMP %d : TEMP %d %c %c",tempCount,tempCount-1,exp[i],exp[i+1]);
+            tempCount++;
+            printf("\n");
+        }
+        else if(exp[i]=='>'||exp[i]=='<')
+        {
+            printf("100: if %s goto 103\n",exp);
+            printf("101: T=0\n");
+            printf("102: goto 104\n");
+            printf("103: T=1\n");
+            printf("104: ");
+            
+        }
+      
+
+        
+        }
+         
+}
+
+    
+
+int main()
+{
+    char exp[100];
+    printf("Enter the expression:");
+    scanf("%s",exp);
+    intermediateCode(exp);
+    
+}
