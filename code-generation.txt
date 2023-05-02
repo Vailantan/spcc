@@ -1,0 +1,107 @@
+#include<stdio.h>
+#include<string.h>
+
+char reg[100];
+
+int genReg()
+{
+  int i = 0;
+  while (reg[i]!='\0')
+  {
+    i++;
+  }
+   return i;
+}
+int findReg(char a)
+{
+    int i = 0;
+    while(reg[i]!='\0')
+    {
+        if(reg[i] == a)
+        {
+            return i;
+        }
+        else{
+            i++;
+        }
+    }
+    return -1;
+
+}
+char* getInstr(char op)
+{
+if (op=='+')
+{
+    return "Add";
+}
+
+}
+
+int main()
+{
+    char line[100];
+    char str[50][100];
+    char arg1[10],arg2[10],result[10],op[10];
+    int i = 0,m=0,j=0;
+    FILE *file = fopen("prac6.txt","r");
+    while(fgets(line,sizeof(line),file))
+    {
+        strcpy(str[i],line);
+        i++;
+    }
+
+  for(int j = 0 ;j<5;j++)
+  {
+    result[j] = str[j][0];
+    arg1[j] = str[j][2];
+    if(strlen(str[j])-1==5)
+    {
+    
+    op[j] = str[j][3];
+    arg2[j] = str[j][4];
+    }
+    else{
+      op[j] = str[j][1];  
+    }
+  }
+
+  for(int i=0;i<2;i++)
+  {
+    int tempReg = 0 ; 
+    if(op[i]!='=')
+  {
+    int temp1;
+    int temp2;
+    temp1 = findReg(arg1[i]);
+    temp2 = findReg(arg2[i]);
+    if(temp1 ==-1 && temp2 ==-1)
+    {
+        tempReg =genReg();
+        printf("MOV %c R%d\n",arg1[i],tempReg);
+        reg[tempReg]=result[i];
+        printf("%s %c R%d\n",getInstr(op[i]),arg2[i],tempReg);
+      
+
+    }
+    else if(temp1 !=-1 && temp2!=-1)
+    {
+        printf("%s R%d R%d\n",getInstr(op[i]),temp1,temp2);
+        reg[temp2] =result[i];
+    }
+
+  }
+  else{
+    int temp1 = findReg(arg1[i]);
+    if(temp1==-1)
+    {
+        tempReg = genReg();
+        printf("MOV %c R%d\n",arg1[i],tempReg);
+        printf("MOV R%d %c\n",tempReg,result[i]);
+        reg[tempReg] =result[i];
+    }
+    else{
+        printf("MOV R%d %c",temp1,result[i]);
+    }
+  }
+}
+}
