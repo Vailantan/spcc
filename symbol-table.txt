@@ -1,0 +1,190 @@
+#include <stdio.h>
+
+int I = 0;
+struct Token
+{
+	char symbol;
+	long addr;
+	char token;
+};
+
+int str_length(char str[])
+{
+	int count;
+	for (count = 0; str[count] != '\0'; ++count);
+	return count;
+}
+
+void removeTable(char s, struct Token arr[10])
+{
+	int index, temp = 0;
+	for (int i = 0; i < I; i++)
+	{
+		if (arr[i].symbol == s)
+		{
+			index = i;
+			temp = 1;
+			break;
+		}
+	}
+
+	if (temp)
+	{
+		for (int i = index; i < I; i++)
+		{
+			arr[i].symbol = arr[i + 1].symbol;
+			arr[i].addr = arr[i + 1].addr;
+			arr[i].token = arr[i + 1].token;
+		}
+
+		I = I - 1;
+	}
+	else
+	{
+		printf("Symbol not found\n");
+	}
+}
+
+void searchTable(char s, struct Token arr[10])
+{
+	int temp = 0;
+	for (int i = 0; i < I; i++)
+	{
+		if (arr[i].symbol == s)
+		{
+			printf("Symbol: %c |", arr[i].symbol);
+			printf("Address: %ld |", arr[i].addr);
+			if (arr[i].token == 'O')
+			{
+				printf("Type: operator");
+			}
+			else
+			{
+				printf("Type: identifier");
+			}
+
+			temp = 1;
+			break;
+		}
+	}
+
+	if (!temp)
+	{
+		printf("Symbol not found\n");
+	}
+}
+
+void viewTable(struct Token arr[10])
+{
+	for (int i = 0; i < I; i++)
+	{
+		printf("Symbol: %c |", arr[i].symbol);
+		printf("Address: %ld |", arr[i].addr);
+		if (arr[i].token == 'O')
+		{
+			printf("Type: operator\n");
+		}
+		else
+		{
+			printf("Type: identifier\n");
+		}
+	}
+}
+
+void identifier(char exp[], struct Token arr[10])
+{
+	int len = str_length(exp);
+	char x = 'O';
+	char y = 'I';
+
+	for (int i = 0; i < I; i++) {}
+
+	int n, flag = 1;
+	for (int i = 0; i < len; i++)
+	{
+		flag = 1;
+		for (int j = 0; j < I; j++)
+		{
+			if (arr[i].symbol == exp[i])
+			{
+				flag = 0;
+				break;
+			}
+		}
+
+		if (flag)
+		{
+			n = (int) exp[i];
+
+			arr[I].addr = (long) &arr[i];
+			if ((65 <= n && n <= 90) || (97 <= n && n <= 122))
+			{
+				arr[I].symbol = exp[i];
+
+				arr[I].token = y;
+			}
+			else
+			{
+				arr[I].symbol = exp[i];
+
+				arr[I].token = x;
+			}
+
+			I = 1 + I;
+		}
+	}
+}
+
+int main()
+{
+	int inp = 1;
+	struct Token arr[10];
+	char s;
+	while (inp != 6)
+	{
+		printf("Enter your choice:");
+		scanf("%d", &inp);
+		switch (inp)
+		{
+			case 1:
+				printf("Enter your expression:");
+				char exp[30];
+				scanf("%s", exp);
+				identifier(exp, arr);
+				break;
+
+			case 2:
+				printf("Enter the symbol to searched: ");
+
+				scanf(" %c", &s);
+
+				searchTable(s, arr);
+				break;
+			case 3:
+				printf("Enter Symbol: ");
+
+				scanf("%s", exp);
+				identifier(exp, arr);
+				break;
+
+			case 4:
+				printf("Enter the symbol to removed: ");
+				scanf(" %c", &s);
+
+				removeTable(s, arr);
+				break;
+
+			case 5:
+				viewTable(arr);
+				break;
+
+			case 6:
+				printf("Exit");
+				break;
+
+			default:
+				// default statements
+				printf("Select appropriate choice");
+		}
+	}
+}
